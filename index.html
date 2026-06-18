@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tabla de Distribución - LinkUp Pro</title>
+    <title>Tabla de Distribución Completa - LinkUp Pro</title>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f7f6;
             color: #333;
             margin: 0;
-            padding: 40px;
+            padding: 20px;
             display: flex;
             justify-content: center;
         }
@@ -18,25 +18,30 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-            overflow: hidden;
-            max-width: 1200px;
+            overflow-x: auto;
             width: 100%;
+            max-width: 1600px;
         }
         table {
             width: 100%;
             border-collapse: collapse;
+            min-width: 1300px;
         }
         th, td {
-            padding: 20px;
+            padding: 15px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
+            border-right: 1px solid #e0e0e0;
+        }
+        th:last-child, td:last-child {
+            border-right: none;
         }
         th {
             background-color: #2c3e50;
             color: #ffffff;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.9em;
+            font-size: 0.85em;
             letter-spacing: 0.5px;
         }
         tr:last-child td {
@@ -46,7 +51,7 @@
             background-color: #f9fbfc;
         }
         td {
-            font-size: 0.95em;
+            font-size: 0.9em;
             line-height: 1.5;
             vertical-align: top;
         }
@@ -59,24 +64,25 @@
         .difficulty {
             font-weight: bold;
             display: inline-block;
-            padding: 5px 10px;
-            border-radius: 5px;
+            padding: 4px 8px;
+            border-radius: 4px;
             background-color: #e74c3c;
             color: white;
-            font-size: 0.85em;
+            font-size: 0.8em;
         }
         .subtitle {
             display: block;
             margin-top: 5px;
             color: #7f8c8d;
             font-weight: 500;
+            font-size: 0.85em;
         }
-        ul {
+        ul, ol {
             margin: 0;
             padding-left: 20px;
         }
         li {
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
         li:last-child {
             margin-bottom: 0;
@@ -92,7 +98,9 @@
                 <th>Responsable</th>
                 <th>Módulos Asignados</th>
                 <th>Nivel de Dificultad General</th>
-                <th>Justificación del Balance de Esfuerzo</th>
+                <th>Justificación del Balance</th>
+                <th>Responsabilidades Específicas</th>
+                <th>Recomendaciones de Estudio</th>
             </tr>
         </thead>
         <tbody>
@@ -111,6 +119,22 @@
                     <span class="subtitle">(Estado y Seguridad)</span>
                 </td>
                 <td>Su carga se centra en la gestión de Identidad. El esfuerzo principal recae en implementar lógica estricta de seguridad (bloqueos, tokens de email, sesiones de 7 días) y la compleja máquina de estados relacional de las solicitudes de amistad (prevenir duplicados, estados cruzados).</td>
+                <td>
+                    <ul>
+                        <li>Implementar <strong>ASP.NET Core Identity</strong> cumpliendo criterios de fortaleza de contraseña exactos.</li>
+                        <li>Garantizar envío asíncrono de correos (SMTP) y generación de tokens de un solo uso.</li>
+                        <li>Desarrollar lógica de bloqueo temporal de cuentas (5 intentos por 15 min).</li>
+                        <li>Implementar máquina de estados de solicitudes de amistad (En espera, Aceptada, Rechazada, Cancelada) previniendo duplicidad.</li>
+                        <li>Asegurar expiración exacta de sesiones (30 mins regular / 7 días persistente).</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li><strong>ASP.NET Core Identity:</strong> <code>PasswordOptions</code>, <code>LockoutOptions</code> y tokens de confirmación.</li>
+                        <li><strong>Envío de Emails:</strong> Bibliotecas como MailKit/SendGrid y tareas asíncronas para SMTP.</li>
+                        <li><strong>Máquinas de Estado:</strong> Patrones lógicos para manejar transiciones seguras de estados.</li>
+                    </ol>
+                </td>
             </tr>
             <tr>
                 <td class="responsable">👩‍💻 Yailyn</td>
@@ -127,6 +151,23 @@
                     <span class="subtitle">(Arquitectura y Datos)</span>
                 </td>
                 <td>Maneja el núcleo social del proyecto. Su esfuerzo se equilibra al ser la responsable inicial de establecer la Arquitectura Onion, EF Core y Repositorios que usará el equipo. Además, debe lidiar con lógica compleja de carga de archivos, previsualizaciones de YouTube y recursividad de datos (hilos de comentarios).</td>
+                <td>
+                    <ul>
+                        <li>Configurar esqueleto en <strong>Arquitectura Onion</strong> separando capas (Domain, Application, Persistence, Presentation).</li>
+                        <li>Implementar carga segura de imágenes (formato y tamaño &lt; 5MB) en <code>wwwroot</code> y extraer ID de videos de YouTube.</li>
+                        <li>Desarrollar algoritmos para el Feed de publicaciones ordenado y con filtros complejos.</li>
+                        <li>Crear modelo jerárquico eficiente para hilos de comentarios y respuestas anidadas en BD sin afectar el rendimiento.</li>
+                        <li>Listar y calcular amigos en común de manera dinámica utilizando LINQ.</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li><strong>Patrones de Arquitectura:</strong> Arquitectura Cebolla, Repository Pattern e Inyección de Dependencias.</li>
+                        <li><strong>EF Core Avanzado:</strong> Eager Loading (<code>Include</code>, <code>ThenInclude</code>) para relaciones anidadas y evitar N+1 queries.</li>
+                        <li><strong>Manejo de I/O en .NET:</strong> <code>IFormFile</code>, validación de bytes de archivos.</li>
+                        <li><strong>AutoMapper:</strong> Proyecciones complejas entre Entidades del Dominio y DTOs/ViewModels.</li>
+                    </ol>
+                </td>
             </tr>
             <tr>
                 <td class="responsable">👨‍💻 Waldin</td>
@@ -141,9 +182,27 @@
                     <span class="subtitle">(Algorítmica pura)</span>
                 </td>
                 <td>Aunque numéricamente posee menos módulos, desarrolla el componente más difícil a nivel algorítmico y matemático. Validar matrices 12x12, superposición de barcos, límites y motores de turnos requiere un esfuerzo lógico inmenso. Además, asume el rol de auditar la seguridad transversal (CSRF, XSS) en el código de sus compañeros.</td>
+                <td>
+                    <ul>
+                        <li>Diseñar el motor del juego Battleship en el backend validando que los barcos no se salgan ni superpongan en la matriz 12x12.</li>
+                        <li>Crear un controlador de turnos invulnerable que evite ataques dobles, fuera de turno o en celdas repetidas.</li>
+                        <li>Diseñar la interfaz de usuario de tableros con CSS Grid coloreando dinámicamente aciertos y fallos.</li>
+                        <li>Auditar la <strong>Seguridad Funcional</strong> del equipo asegurando atributos <code>[ValidateAntiForgeryToken]</code> y <code>[Authorize]</code>.</li>
+                        <li>Impedir vulnerabilidades XSS sanitizando todo input de texto al renderizar en Razor Views.</li>
+                    </ul>
+                </td>
+                <td>
+                    <ol>
+                        <li><strong>Algoritmia de Matrices Bidimensionales (2D):</strong> Matemáticas para recorrer y validar colisiones en arrays de C# (Ej. <code>int[,] tablero = new int[12, 12];</code>).</li>
+                        <li><strong>CSS Grid:</strong> Esencial para construir tableros 100% precisos y cuadriculados en el frontend.</li>
+                        <li><strong>Vulnerabilidades (OWASP Top 10):</strong> Prevención estricta de CSRF y uso de <code>HtmlEncoder</code> nativo.</li>
+                        <li><strong>Gestión de Estado Concurrente:</strong> Almacenamiento eficiente de partidas vivas sin saturar la Base de Datos.</li>
+                    </ol>
+                </td>
             </tr>
         </tbody>
     </table>
 </div>
+
 </body>
 </html>
